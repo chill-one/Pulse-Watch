@@ -7,12 +7,14 @@ services:
 
   postgres:
     image: postgres:18
+    
     environment:
       - POSTGRES_DG=pulsewatch
       - POSTGRES_USER=pulsewatch
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    
     volumes:
-      -postgres_data:/var/lib/postgresql
+      - postgres_data:/var/lib/postgresql
 
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
@@ -21,6 +23,20 @@ services:
       retries: 5
 
   rabbitmq:
+    image: rabbitmq:4-management
+    
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMAQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+    
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 
 volumes:
