@@ -2,6 +2,26 @@ services:
   frontend:
 
   backend:
+    build: ./backend
+
+    ports:
+      -"8080:8080"
+
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/pulsewatch
+      - SPRING_DATASOURCE_USERNAME=pulsewatch
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=${RABBITMQ_USER}
+      - SPRING_RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
   worker:
 
