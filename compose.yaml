@@ -27,7 +27,8 @@ services:
 
   worker:
     build:
-      context: ./worker
+      context: .
+      dockerfile: worker/Dockerfile
 
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/pulsewatch
