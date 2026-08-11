@@ -57,22 +57,23 @@ services:
         condition: service_healthy
 
 
-  postgres:
-    image: postgres:18
-    
-    environment:
-      - POSTGRES_DG=pulsewatch
-      - POSTGRES_USER=pulsewatch
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    
-    volumes:
-      - postgres_data:/var/lib/postgresql
+postgres:
+  image: postgres:18
 
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+  environment:
+    - POSTGRES_DB=pulsewatch
+    - POSTGRES_USER=pulsewatch
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+  volumes:
+    - postgres_data:/var/lib/postgresql
+
+  healthcheck:
+    test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+    interval: 10s
+    timeout: 5s
+    retries: 5
+    start_period: 30s
 
   rabbitmq:
     image: rabbitmq:4-management
