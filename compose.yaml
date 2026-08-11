@@ -16,7 +16,7 @@ services:
       dockerfile: backend/Dockerfile
 
     ports:
-      -"8080:8080"
+      - "8080:8080"
 
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/pulsewatch
@@ -50,11 +50,11 @@ services:
       - SPRING_RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
 
     depends_on:
-      - postgres:
-          condition: service_healthy
+      postgres:
+        condition: service_healthy
 
-      - rabbitmq:
-          condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
 
   postgres:
@@ -78,7 +78,7 @@ services:
     image: rabbitmq:4-management
     
     environment:
-      - RABBITMQ_DEFAULT_USER=${RABBITMAQ_USER}
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
     
     volumes:
