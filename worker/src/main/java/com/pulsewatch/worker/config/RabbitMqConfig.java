@@ -8,13 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.pulsewatch.common.messaging.RabbitMqNames;
-/**
- * @Configuration -> This class contains objects that Spring should create/configure when the application starts.
- * @Bean -> Spring call this method and manage the returned object for me
- * 
- * @Bean
- * RabbitMqConfig
- */
+
+//@Configuration -> This class contains objects that Spring should create/configure when the application starts.
+//@Bean -> Spring call this method and manage the returned object for me
+
 
 @Configuration
 public class RabbitMqConfig {
@@ -41,7 +38,8 @@ public class RabbitMqConfig {
      */
     @Bean
     public Queue checkQueue() {
-        // create queue pulsewatch.check.tasks with durable is true since we want the data to persisit.
+        // Create a durable queue so the queue definition can survive
+        // a RabbitMQ broker restart.
         return new Queue(
                 RabbitMqNames.CHECK_QUEUE,
                 true
