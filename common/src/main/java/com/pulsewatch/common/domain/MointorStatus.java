@@ -1,4 +1,4 @@
-package com.pulsewatch.common.domian;
+package com.pulsewatch.common.domain;
 
 public enum MointorStatus {
     //Still waiting on the Monitor data
