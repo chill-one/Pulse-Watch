@@ -64,14 +64,14 @@ public class Monitor {
         int consecutiveFailureCount,
         Instant createdAt) {
 
-    this.name = name;
-    this.url = url;
-    this.checkIntervalSeconds = checkIntervalSeconds;
-    this.timeoutSeconds = timeoutSeconds;
-    this.nextCheckAt = nextCheckAt;
-    this.status = status;
-    this.consecutiveFailureCount = consecutiveFailureCount;
-    this.createdAt = createdAt;
+        this.name = name;
+        this.url = url;
+        this.checkIntervalSeconds = checkIntervalSeconds;
+        this.timeoutSeconds = timeoutSeconds;
+        this.nextCheckAt = nextCheckAt;
+        this.status = status;
+        this.consecutiveFailureCount = consecutiveFailureCount;
+        this.createdAt = createdAt;
 
     }
 
