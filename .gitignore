@@ -2,5 +2,6 @@
 backend/target
 worker/target
 common/target
+persistence/target
 .vscode/
 .prettierrc
