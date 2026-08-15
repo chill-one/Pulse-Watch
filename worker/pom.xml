@@ -49,6 +49,12 @@
             <artifactId>spring-boot-starter-restclient</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.pulsewatch</groupId>
+            <artifactId>persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 
 <build>
