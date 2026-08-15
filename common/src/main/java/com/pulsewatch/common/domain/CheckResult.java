@@ -39,7 +39,7 @@ public class CheckResult {
 
     //@JointColumn -> In the CheckResult Table, use a column named monitor_id to refernec the associated Mointor
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "mointor_id", nullable = false)
+    @JoinColumn(name = "monitor_id", nullable = false)
     private Monitor monitor;
 
 
