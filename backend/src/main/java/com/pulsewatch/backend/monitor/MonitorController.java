@@ -2,9 +2,11 @@ package com.pulsewatch.backend.monitor;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pulsewatch.common.domain.Monitor;
 
 import jakarta.validation.Valid;
+
 
 
 @RestController
@@ -64,5 +67,18 @@ public class MonitorController {
                              .toList();
 
     }
+    
+    //@PathVariable /monitors/550e8400-e29b-41d4-a716-446655440000
+    //                       └──────────────────────────────────┘
+    //                                         id -> converst it into UUID
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MonitorResponse> getMonitor(@PathVariable UUID id) {
+        return monitorService.getMointor(id)
+                             .map(MonitorResponse::from)
+                             .map(ResponseEntity::ok)
+                             .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    
     
 }
