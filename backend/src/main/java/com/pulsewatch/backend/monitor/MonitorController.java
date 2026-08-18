@@ -1,8 +1,10 @@
 package com.pulsewatch.backend.monitor;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pulsewatch.common.domain.Monitor;
 
 import jakarta.validation.Valid;
+
 
 @RestController
 // @RequestMapping -> defines the base path
@@ -40,4 +43,26 @@ public class MonitorController {
                 .created(location)
                 .body(response);
     }
+
+    //@GetMapping -> means that this method handles Get /monitors
+    @GetMapping
+    public List<MonitorResponse> getMointor() {
+        // getAllMonitors()
+        //      -> gets all Monitor objects from the repository
+        //
+        // stream()
+        //      -> lets us process each Monitor one at a time
+        //
+        // map(MonitorResponse::from)
+        //      -> converts each Monitor into a MonitorResponse
+        //
+        // toList()
+        //      -> collects all converted MonitorResponse objects into a List
+        return monitorService.getAllMointors()
+                             .stream()
+                             .map(MonitorResponse::from)
+                             .toList();
+
+    }
+    
 }
