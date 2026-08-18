@@ -1,5 +1,9 @@
 package com.pulsewatch.backend.monitor;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
@@ -20,4 +24,30 @@ public record CreateMonitorRequest(
         @Positive(message = "TimeoutSeconds must be greater than 0")
         int timeoutSeconds
 ) {
+
+
+
+        @AssertTrue(message = "url must be a valid HTTP or HTTPS URL")
+        public boolean isUrlValid(){
+                
+                //Without this check both @Not blank and AssertTrue can generate two validation error
+                //Since @Not blank already owns this rule we return true
+                if(url == null || url.isBlank()){
+                        return true;
+                }
+
+                try {
+                        //url given: https://google.com
+                        URI uri = new URI(url);
+                        
+                        //https or http
+                        String scheme = uri.getScheme();
+                        
+                        //host -> google.com
+                        return uri.getHost() != null && ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme));
+                    
+                } catch (URISyntaxException e) {
+                        return false;
+                }
+        }
 }
