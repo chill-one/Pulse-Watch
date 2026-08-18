@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pulsewatch.common.domain.Monitor;
 
+import jakarta.validation.Valid;
+
 @RestController
 // @RequestMapping -> defines the base path
 @RequestMapping("/monitors")
@@ -21,10 +23,11 @@ public class MonitorController {
         this.monitorService = monitorService;
     }
 
+    //@ Valid -> Validates the request if invalid 400 response is sent
     //@ RequestBody -> Spring takes JSON from the HTTP Body and converts it into CreateMonitorRequest
     //@PostMapping -> means that this method handles POST /monitors
     @PostMapping
-    public ResponseEntity<MonitorResponse> createMonitor(@RequestBody CreateMonitorRequest request) {
+    public ResponseEntity<MonitorResponse> createMonitor(@Valid @RequestBody CreateMonitorRequest request) {
 
         Monitor monitor = monitorService.createMonitor(request);
 
