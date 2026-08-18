@@ -74,6 +74,18 @@ public class MonitorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MonitorResponse> getMonitor(@PathVariable UUID id) {
+
+        // getMonitor(id)
+        //   -> returns Optional<Monitor>
+        //
+        // map(MonitorResponse::from)
+        //   -> if Monitor exists, convert it to MonitorResponse
+        //
+        // map(ResponseEntity::ok)
+        //   -> wrap the MonitorResponse in HTTP 200 OK
+        //
+        // orElseGet(...)
+        //   -> if the Monitor does not exist, return HTTP 404
         return monitorService.getMointor(id)
                              .map(MonitorResponse::from)
                              .map(ResponseEntity::ok)
