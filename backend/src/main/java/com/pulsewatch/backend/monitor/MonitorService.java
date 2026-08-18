@@ -1,6 +1,9 @@
 package com.pulsewatch.backend.monitor;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -42,5 +45,22 @@ public class MonitorService {
         );
 
         return monitorRepository.save(monitor);
+    }
+
+    /**
+     * The JpaRepository already supplies findAll() and find__() 
+     * @return All the Monitors in the Systems
+     */
+    public List<Monitor> getAllMointors() {
+        return monitorRepository.findAll();
+    }
+
+    /**
+     * Even if Monitor does not exist we can return an empty Optional which is better than null
+     * @param id The id associated with the Monitor
+     * @return All the Mointor listed under this id
+     */
+    public Optional<Monitor> getMointor(UUID id) {
+        return monitorRepository.findById(id);
     }
 }
