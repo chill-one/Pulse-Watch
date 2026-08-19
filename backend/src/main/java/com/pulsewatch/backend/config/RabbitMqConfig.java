@@ -1,4 +1,4 @@
-package com.pulsewatch.worker.config;
+package com.pulsewatch.backend.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -30,7 +30,9 @@ public class RabbitMqConfig {
     public DirectExchange checkExchange() {
         // Set the direct exchange route
         return new DirectExchange(
-                RabbitMqNames.CHECK_EXCHANGE
+                RabbitMqNames.CHECK_EXCHANGE,
+                true,
+                false
         );
     }
 
