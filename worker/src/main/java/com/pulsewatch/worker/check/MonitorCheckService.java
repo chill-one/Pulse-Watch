@@ -333,7 +333,16 @@ private void checkWebsite(CheckTask task, Monitor monitor) {
                 System.nanoTime() - start
         );
 
+        CheckError checkError = classifyError(e);
 
+        CheckResult result = new CheckResult(
+            task.taskId(),
+            monitor,
+            Instant.now(),
+            null,
+            latencyMs,
+            checkError
+        );
         /*
          * Print information about the failed check.
          *
