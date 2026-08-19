@@ -3,7 +3,9 @@ package com.pulsewatch.worker.messaging;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
+import com.pulsewatch.common.messaging.CheckTask;
 import com.pulsewatch.common.messaging.RabbitMqNames;
+
 
 // @RabbitListner -> Spring should create RabbitMQ listner for this method
 // @Component -> Spring should discover, instantiate, and manage this class
@@ -16,10 +18,15 @@ public class CheckTaskConsumer {
      * @param message
      */
     @RabbitListener(queues = RabbitMqNames.CHECK_QUEUE)
-    public void receive(String message){
+    public void receive(CheckTask task){
         // For today's test only:
         // print the message that RabbitMQ delivered.
-         System.out.println("Received check task: " + message);
+         System.out.println(
+                    "Received check task:"
+                    + " taskId=" + task.taskId()
+                    + " monitorId=" + task.monitorId()
+                    + " scheduledCheckAt=" + task.scheduleCheckAt()
+         );
     }
     
 }
