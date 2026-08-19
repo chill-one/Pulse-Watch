@@ -1,6 +1,7 @@
 package com.pulsewatch.worker.check;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 
+import com.pulsewatch.common.domain.CheckResult;
 import com.pulsewatch.common.domain.Monitor;
 import com.pulsewatch.common.messaging.CheckTask;
 import com.pulsewatch.persistence.repository.CheckResultRepository;
@@ -58,11 +60,11 @@ public class MonitorCheckService {
             return;
         }
 
-        checkWebsite(monitor);
+        checkWebsite(task, monitor);
     }
 
 
-private void checkWebsite(Monitor monitor) {
+private void checkWebsite(CheckTask task, Monitor monitor) {
 
     /*
      * Read the timeout configured for this particular Monitor.
@@ -256,6 +258,16 @@ private void checkWebsite(Monitor monitor) {
                 System.nanoTime() - start
         );
 
+        CheckResult result = new CheckResult(
+            task.taskId(), 
+            monitor, 
+            Instant.now(),
+            statusCode,
+            latencyMs,
+            null
+        );
+
+        checkResultRepository.save(result);
 
         /*
          * Print our temporary monitoring result.
