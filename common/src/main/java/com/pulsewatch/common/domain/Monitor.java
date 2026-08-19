@@ -110,4 +110,12 @@ public class Monitor {
     public Instant getCreatedAt() {
         return createdAt;
     }
+
+    /**
+     * Schedule this monitor's next check one interval from now
+     * @param from The previous time 
+     */
+    public void scheduleNextCheck(Instant from){
+        this.nextCheckAt = from.plusSeconds(checkIntervalSeconds);
+    }
 }
