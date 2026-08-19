@@ -18,7 +18,6 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 
 import com.pulsewatch.common.domain.CheckError;
-import com.pulsewatch.common.domain.CheckResult;
 import com.pulsewatch.common.domain.Monitor;
 import com.pulsewatch.common.messaging.CheckTask;
 import com.pulsewatch.persistence.repository.CheckResultRepository;
@@ -28,6 +27,7 @@ import com.pulsewatch.persistence.repository.MonitorRepository;
 @Service
 public class MonitorCheckService {
 
+    private final CheckPersistenceService checkPersistenceService;
     private final MonitorRepository monitorRepository;
     private final RestClient.Builder restClientBuilder;
     private final CheckResultRepository checkResultRepository;
@@ -35,11 +35,13 @@ public class MonitorCheckService {
     public MonitorCheckService(
             MonitorRepository monitorRepository,
             CheckResultRepository checkResultRepository,
+            CheckPersistenceService checkPersistenceService,
             RestClient.Builder restClientBuilder) {
 
         this.monitorRepository = monitorRepository;
         this.restClientBuilder = restClientBuilder;
         this.checkResultRepository = checkResultRepository;
+        this.checkPersistenceService = checkPersistenceService;
     }
 
     /**
@@ -265,16 +267,13 @@ private void checkWebsite(CheckTask task, Monitor monitor) {
                 System.nanoTime() - start
         );
 
-        CheckResult result = new CheckResult(
-            task.taskId(), 
-            monitor, 
-            Instant.now(),
-            statusCode,
-            latencyMs,
-            null
-        );
 
-        checkResultRepository.save(result);
+        checkPersistenceService.recordResult(
+            task, 
+            Instant.now(), 
+            statusCode, 
+            latencyMs, 
+            null);
 
         /*
          * Print our temporary monitoring result.
@@ -336,16 +335,12 @@ private void checkWebsite(CheckTask task, Monitor monitor) {
 
         CheckError checkError = classifyError(e);
 
-        CheckResult result = new CheckResult(
-            task.taskId(),
-            monitor,
-            Instant.now(),
-            null,
-            latencyMs,
-            checkError
-        );
-
-        checkResultRepository.save(result);
+        checkPersistenceService.recordResult(
+            task, 
+            Instant.now(), 
+            null, 
+            latencyMs, 
+            checkError);
         /*
          * Print information about the failed check.
          *
