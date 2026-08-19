@@ -118,4 +118,33 @@ public class Monitor {
     public void scheduleNextCheck(Instant from){
         this.nextCheckAt = from.plusSeconds(checkIntervalSeconds);
     }
+
+    /**
+     * Call this when a request for a monitor is succesfull.
+     */
+    public void recordSucess() {
+        this.consecutiveFailureCount = 0;
+        this.status = MonitorStatus.UP;
+    }
+
+    /**
+     * Sets the current Monitor status to thier correct state based on the current 
+     * Threshold
+     * @param failureThreshold The uppper bound for acceptable failure
+     */
+    public void recordFailure(int failureThreshold) {
+        if (failureThreshold <= 0) {
+            throw new IllegalArgumentException(
+                "failureThreshold must be greater than 0"
+            );
+        }
+
+        this.consecutiveFailureCount++;
+
+        if(this.consecutiveFailureCount >= failureThreshold) {
+            this.status = MonitorStatus.DOWN;
+        } else {
+            this.status = MonitorStatus.DEGRADED;
+        }
+    }
 }
