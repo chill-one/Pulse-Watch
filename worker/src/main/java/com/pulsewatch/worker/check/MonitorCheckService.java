@@ -344,6 +344,8 @@ private void checkWebsite(CheckTask task, Monitor monitor) {
             latencyMs,
             checkError
         );
+
+        checkResultRepository.save(result);
         /*
          * Print information about the failed check.
          *
@@ -370,7 +372,7 @@ private void checkWebsite(CheckTask task, Monitor monitor) {
         System.out.println(
                 "Check failed " + monitor.getUrl()
                 + " latencyMs=" + latencyMs
-                + " error=" + e.getClass().getSimpleName()
+                + " error=" + checkError
         );
     }
 
