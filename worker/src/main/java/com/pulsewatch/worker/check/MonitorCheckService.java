@@ -12,6 +12,7 @@ import org.springframework.web.client.RestClientException;
 
 import com.pulsewatch.common.domain.Monitor;
 import com.pulsewatch.common.messaging.CheckTask;
+import com.pulsewatch.persistence.repository.CheckResultRepository;
 import com.pulsewatch.persistence.repository.MonitorRepository;
 
 
@@ -20,13 +21,16 @@ public class MonitorCheckService {
 
     private final MonitorRepository monitorRepository;
     private final RestClient.Builder restClientBuilder;
+    private final CheckResultRepository checkResultRepository;
 
     public MonitorCheckService(
             MonitorRepository monitorRepository,
+            CheckResultRepository checkResultRepository,
             RestClient.Builder restClientBuilder) {
 
         this.monitorRepository = monitorRepository;
         this.restClientBuilder = restClientBuilder;
+        this.checkResultRepository = checkResultRepository;
     }
 
     /**
@@ -34,6 +38,14 @@ public class MonitorCheckService {
      * @param task The message object for the current task
      */
     public void process(CheckTask task) {
+
+
+        if (checkResultRepository.existsByTaskId(task.taskId())) {
+            System.out.println(
+                "Task already processed: " + task.taskId()
+            );
+            return;
+        }
 
         Monitor monitor = monitorRepository
                           .findById(task.monitorId())
