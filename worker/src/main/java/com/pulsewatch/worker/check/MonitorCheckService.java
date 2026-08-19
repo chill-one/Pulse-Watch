@@ -1,6 +1,7 @@
 package com.pulsewatch.worker.check;
 
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.net.http.HttpTimeoutException;
 import java.time.Duration;
@@ -387,7 +388,7 @@ private void checkWebsite(CheckTask task, Monitor monitor) {
 
         while (current != null){
 
-            if (current instanceof  HttpTimeoutException) {
+            if (current instanceof  HttpTimeoutException || current instanceof SocketTimeoutException) {
                 return CheckError.TIMEOUT;
             }
 
