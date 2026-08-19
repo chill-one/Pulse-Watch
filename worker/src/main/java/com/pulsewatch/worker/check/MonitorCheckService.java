@@ -1,8 +1,13 @@
 package com.pulsewatch.worker.check;
 
+import java.net.ConnectException;
+import java.net.UnknownHostException;
+import java.net.http.HttpTimeoutException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.SSLException;
 
 import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
 import org.springframework.boot.http.client.HttpClientSettings;
@@ -11,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 
+import com.pulsewatch.common.domain.CheckError;
 import com.pulsewatch.common.domain.CheckResult;
 import com.pulsewatch.common.domain.Monitor;
 import com.pulsewatch.common.messaging.CheckTask;
@@ -358,5 +364,39 @@ private void checkWebsite(CheckTask task, Monitor monitor) {
         );
     }
 
+    }
+
+
+    /**
+     * Walk down the error chain until we find the real network cause.
+     * @param error The error thrown by the http request
+     * @return The type of error
+     */
+    private CheckError classifyError(Throwable error){
+
+        Throwable current = error;
+
+        while (current != null){
+
+            if (current instanceof  HttpTimeoutException) {
+                return CheckError.TIMEOUT;
+            }
+
+            if (current instanceof  UnknownHostException) {
+                return CheckError.DNS_ERROR;
+            }
+
+            if (current instanceof SSLException) {
+                return CheckError.TLS_ERROR;
+            }
+
+            if (current instanceof ConnectException) {
+                return CheckError.CONNECTION_REFUSED;
+            }
+
+            current = current.getCause();
+        }
+
+        return CheckError.NETWORK_ERROR;
     }
 }
