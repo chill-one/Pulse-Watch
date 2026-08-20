@@ -16,6 +16,7 @@ import software.amazon.awssdk.services.sesv2.model.Destination;
 import software.amazon.awssdk.services.sesv2.model.EmailContent;
 import software.amazon.awssdk.services.sesv2.model.Message;
 import software.amazon.awssdk.services.sesv2.model.SendEmailRequest;
+import software.amazon.awssdk.services.sesv2.model.SendEmailResponse;
 
 @Component
 @Profile("ses-email")
@@ -37,59 +38,62 @@ public class SesNotificationSender
     }
 
 
-    /** 
-     * @param alert
-     */
-    @Override
-    public void send(Alert alert) {
+        @Override
+        public void send(Alert alert) {
 
-        Incident incident = alert.getIncident();
-        Monitor monitor = incident.getMonitor();
+                Incident incident = alert.getIncident();
+                Monitor monitor = incident.getMonitor();
 
-        String subject = buildSubject(alert, monitor);
-        String body = buildBody(alert, monitor, incident);
+                String subject = buildSubject(alert, monitor);
+                String body = buildBody(alert, monitor, incident);
 
-        SendEmailRequest request =
-                SendEmailRequest.builder()
+                Destination destination =
+                        Destination.builder()
+                                .toAddresses(toAddress)
+                                .build();
 
-                        .fromEmailAddress(fromAddress)
+                Content subjectContent =
+                        Content.builder()
+                                .data(subject)
+                                .build();
 
-                        .destination(
-                                Destination.builder()
-                                        .toAddresses(toAddress)
-                                        .build()
-                        )
+                Content bodyContent =
+                        Content.builder()
+                                .data(body)
+                                .build();
 
-                        .content(
-                                EmailContent.builder()
-                                        .simple(
-                                                Message.builder()
+                Body emailBody =
+                        Body.builder()
+                                .text(bodyContent)
+                                .build();
 
-                                                        .subject(
-                                                                Content.builder()
-                                                                        .data(subject)
-                                                                        .build()
-                                                        )
+                Message message =
+                        Message.builder()
+                                .subject(subjectContent)
+                                .body(emailBody)
+                                .build();
 
-                                                        .body(
-                                                                Body.builder()
-                                                                        .text(
-                                                                                Content.builder()
-                                                                                        .data(body)
-                                                                                        .build()
-                                                                        )
-                                                                        .build()
-                                                        )
+                EmailContent emailContent =
+                        EmailContent.builder()
+                                .simple(message)
+                                .build();
 
-                                                        .build()
-                                        )
-                                        .build()
-                        )
+                SendEmailRequest request =
+                        SendEmailRequest.builder()
+                                .fromEmailAddress(fromAddress)
+                                .destination(destination)
+                                .content(emailContent)
+                                .build();
 
-                        .build();
+                SendEmailResponse response =
+                        sesClient.sendEmail(request);
 
-        sesClient.sendEmail(request);
-    }
+                System.out.println(
+                        "SES email sent:"
+                        + " alertId=" + alert.getId()
+                        + " messageId=" + response.messageId()
+                );
+        }
 
 
     private String buildSubject(
