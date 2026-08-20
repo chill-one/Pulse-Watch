@@ -1,10 +1,12 @@
 package com.pulsewatch.backend.alert;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.pulsewatch.common.domain.Alert;
 
 @Component
+@Profile("!ses-email")
 public class LoggingNotificationSender
         implements NotificationSender {
 
