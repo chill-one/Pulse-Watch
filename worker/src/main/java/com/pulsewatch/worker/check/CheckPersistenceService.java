@@ -4,12 +4,15 @@ import java.time.Instant;
 
 import org.springframework.stereotype.Service;
 
+import com.pulsewatch.common.domain.Alert;
+import com.pulsewatch.common.domain.AlertType;
 import com.pulsewatch.common.domain.CheckError;
 import com.pulsewatch.common.domain.CheckResult;
 import com.pulsewatch.common.domain.Incident;
 import com.pulsewatch.common.domain.Monitor;
 import com.pulsewatch.common.domain.MonitorStatus;
 import com.pulsewatch.common.messaging.CheckTask;
+import com.pulsewatch.persistence.repository.AlertRepository;
 import com.pulsewatch.persistence.repository.CheckResultRepository;
 import com.pulsewatch.persistence.repository.IncidentRepository;
 import com.pulsewatch.persistence.repository.MonitorRepository;
@@ -24,15 +27,18 @@ public class CheckPersistenceService {
     private final MonitorRepository monitorRepository;
     private final CheckResultRepository checkResultRepository;
     private final IncidentRepository incidentRepository;
+    private final AlertRepository alertRepository;
 
     public CheckPersistenceService(
             MonitorRepository monitorRepository,
             IncidentRepository incidentRepository,
-            CheckResultRepository checkResultRepository) {
+            CheckResultRepository checkResultRepository,
+            AlertRepository alertRepository) {
         
         this.incidentRepository = incidentRepository;
         this.monitorRepository = monitorRepository;
         this.checkResultRepository = checkResultRepository;
+        this.alertRepository = alertRepository;
     }
 
     //@Transactional -> Everything inside this function must be atomic
@@ -73,6 +79,14 @@ public class CheckPersistenceService {
                         .ifPresent(incident -> {
                             incident.resolve(checkedAt);
                             incidentRepository.save(incident);
+
+                            Alert recoveryAlert = 
+                                    new Alert(
+                                                incident,
+                                                AlertType.RECOVERY,
+                                                checkedAt
+                                    );
+                            alertRepository.save(recoveryAlert);
                         });
             }
         } else {
@@ -92,6 +106,9 @@ public class CheckPersistenceService {
 
                     Incident incident = new Incident(monitor, checkedAt);
                     incidentRepository.save(incident);
+
+                    Alert outageAlert = new Alert(incident, AlertType.OUTAGE, checkedAt);
+                    alertRepository.save(outageAlert);
                 }
             }
         }
