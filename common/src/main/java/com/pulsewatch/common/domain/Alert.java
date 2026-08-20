@@ -59,6 +59,10 @@ public class Alert {
         this.sentAt = sentAt;
     }
 
+    public void markFailed() {
+        this.deliveryStatus = DeliveryStatus.FAILED;
+    }
+
     public UUID getId() {
         return id;
     }
