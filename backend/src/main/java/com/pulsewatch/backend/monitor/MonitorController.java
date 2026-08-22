@@ -108,4 +108,23 @@ public class MonitorController {
                         ResponseEntity.notFound().build()
                 );
     }
+
+    @GetMapping("/{id}/incidents")
+    public ResponseEntity<List<IncidentResponse>> getRecentIncidents( @PathVariable UUID id, @RequestParam(defaultValue = "10") int limit) {
+
+        return monitorService
+                .getRecentIncidents(id, limit)
+                .map(incidents ->
+                        incidents.stream()
+                                .map(IncidentResponse::from)
+                                .toList()
+                )
+                .map(ResponseEntity::ok)
+                .orElseGet(() ->
+                        ResponseEntity.notFound().build()
+                );
+    }
+    
+
+
 }
