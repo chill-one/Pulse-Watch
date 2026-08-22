@@ -21,4 +21,6 @@ public interface CheckResultRepository
         Monitor monitor,
         Pageable pageable
     );
+
+    void deleteByMonitor(Monitor monitor);
 }
