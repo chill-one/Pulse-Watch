@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -124,6 +125,20 @@ public class MonitorController {
                         ResponseEntity.notFound().build()
                 );
     }
+
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<MonitorResponse> updateMonitor(@PathVariable UUID id, @RequestBody UpdateMonitorRequest request)
+    {
+        return monitorService
+                        .updateMonitor(id, request)
+                        .map(MonitorResponse::from)
+                        .map(ResponseEntity::ok)
+                        .orElseGet(() ->
+                                    ResponseEntity.notFound().build()                
+                    );   
+    }
+    
     
 
 
