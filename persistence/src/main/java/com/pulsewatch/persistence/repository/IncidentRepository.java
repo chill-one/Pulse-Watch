@@ -32,4 +32,7 @@ public interface IncidentRepository
         Monitor monitor,
         Pageable pageable
     );
+
+
+    void deleteByMonitor(Monitor montior);
 }
