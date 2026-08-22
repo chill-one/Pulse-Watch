@@ -140,6 +140,10 @@ public class MonitorService {
                 request.timeoutSeconds()
         );
 
+        if (request.checkIntervalSeconds() != null) {
+            monitor.scheduleNextCheck(Instant.now());
+        }
+
         return Optional.of(monitor);
     }
 
