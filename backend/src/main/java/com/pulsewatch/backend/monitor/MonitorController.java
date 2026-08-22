@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pulsewatch.common.domain.Monitor;
@@ -92,5 +93,19 @@ public class MonitorController {
                              .orElseGet(() -> ResponseEntity.notFound().build());
     }
     
-    
+    @GetMapping("/{id}/checks")
+    public ResponseEntity<List<CheckResultResponse>> getRecentChecks(@PathVariable UUID id, @RequestParam(defaultValue = "50") int limit) {
+
+        return monitorService
+                .getRecentChecks(id, limit)
+                .map(results ->
+                        results.stream()
+                                .map(CheckResultResponse::from)
+                                .toList()
+                )
+                .map(ResponseEntity::ok)
+                .orElseGet(() ->
+                        ResponseEntity.notFound().build()
+                );
+    }
 }
