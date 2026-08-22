@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.PageRequest;
 
 import com.pulsewatch.common.domain.CheckResult;
+import com.pulsewatch.common.domain.Incident;
 import com.pulsewatch.common.domain.Monitor;
 import com.pulsewatch.common.domain.MonitorStatus;
 import com.pulsewatch.persistence.repository.CheckResultRepository;
+import com.pulsewatch.persistence.repository.IncidentRepository;
 import com.pulsewatch.persistence.repository.MonitorRepository;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,10 +25,12 @@ public class MonitorService {
 
     private final MonitorRepository monitorRepository;
     private final CheckResultRepository checkResultRepository;
+    private final IncidentRepository incidentRepository;
 
-    public MonitorService(MonitorRepository monitorRepository, CheckResultRepository checkResultRepository) {
+    public MonitorService(MonitorRepository monitorRepository, CheckResultRepository checkResultRepository, IncidentRepository incidentRepository) {
         this.monitorRepository = monitorRepository;
         this.checkResultRepository = checkResultRepository;
+        this.incidentRepository = incidentRepository;
     }
 
 
@@ -91,5 +95,29 @@ public class MonitorService {
 
         return Optional.of(results);
     }
+
+
+    public Optional<List<Incident>> getRecentIncidents(UUID monitorId, int limit) {
+
+        Optional<Monitor> monitorOptional =
+                monitorRepository.findById(monitorId);
+
+        if (monitorOptional.isEmpty()) {
+            return Optional.empty();
+        }
+
+        int safeLimit = Math.min(Math.max(limit, 1), 100);
+
+        List<Incident> incidents =
+                incidentRepository
+                        .findByMonitorOrderByStartedAtDesc(
+                                monitorOptional.get(),
+                                PageRequest.of(0, safeLimit)
+                        );
+
+        return Optional.of(incidents);
+    }
+
+    
 
 }
