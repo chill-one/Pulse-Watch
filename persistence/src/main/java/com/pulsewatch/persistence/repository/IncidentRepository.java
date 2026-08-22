@@ -2,8 +2,10 @@ package com.pulsewatch.persistence.repository;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Pageable;
 
 import com.pulsewatch.common.domain.Incident;
 import com.pulsewatch.common.domain.Monitor;
@@ -24,4 +26,10 @@ public interface IncidentRepository
         findFirstByMonitorAndEndedAtIsNullOrderByStartedAtDesc(
             Monitor monitor
         );
+
+    //provide me the latest incidents
+    List<Incident> findByMonitorOrderByStartedAtDesc(
+        Monitor monitor,
+        Pageable pageable
+    );
 }
