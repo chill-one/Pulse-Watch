@@ -15,6 +15,9 @@ import com.pulsewatch.common.domain.MonitorStatus;
 import com.pulsewatch.persistence.repository.CheckResultRepository;
 import com.pulsewatch.persistence.repository.IncidentRepository;
 import com.pulsewatch.persistence.repository.MonitorRepository;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -116,6 +119,28 @@ public class MonitorService {
                         );
 
         return Optional.of(incidents);
+    }
+
+    @Transactional
+    public Optional<Monitor> updateMonitor(UUID id, UpdateMonitorRequest request) {
+
+        Optional<Monitor> monitorOptional =
+                monitorRepository.findById(id);
+
+        if (monitorOptional.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Monitor monitor = monitorOptional.get();
+
+        monitor.updateConfiguration(
+                request.name(),
+                request.url(),
+                request.checkIntervalSeconds(),
+                request.timeoutSeconds()
+        );
+
+        return Optional.of(monitor);
     }
 
     
