@@ -15,14 +15,11 @@ import com.pulsewatch.persistence.repository.AlertRepository;
 public class AlertProcessor {
 
     private final AlertRepository alertRepository;
-    private final NotificationSender notificationSender;
 
     public AlertProcessor(
-            AlertRepository alertRepository,
-            NotificationSender notificationSender) {
+            AlertRepository alertRepository) {
 
         this.alertRepository = alertRepository;
-        this.notificationSender = notificationSender;
     }
 
     @Transactional(readOnly = true)
