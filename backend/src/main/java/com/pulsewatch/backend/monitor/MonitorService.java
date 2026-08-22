@@ -6,10 +6,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.PageRequest;
 
+import com.pulsewatch.common.domain.CheckResult;
 import com.pulsewatch.common.domain.Monitor;
 import com.pulsewatch.common.domain.MonitorStatus;
+import com.pulsewatch.persistence.repository.CheckResultRepository;
 import com.pulsewatch.persistence.repository.MonitorRepository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -18,9 +22,11 @@ import com.pulsewatch.persistence.repository.MonitorRepository;
 public class MonitorService {
 
     private final MonitorRepository monitorRepository;
+    private final CheckResultRepository checkResultRepository;
 
-    public MonitorService(MonitorRepository monitorRepository) {
+    public MonitorService(MonitorRepository monitorRepository, CheckResultRepository checkResultRepository) {
         this.monitorRepository = monitorRepository;
+        this.checkResultRepository = checkResultRepository;
     }
 
 
@@ -63,4 +69,27 @@ public class MonitorService {
     public Optional<Monitor> getMointor(UUID id) {
         return monitorRepository.findById(id);
     }
+
+
+    public Optional<List<CheckResult>> getRecentChecks(UUID monitorId, int limit) {
+
+        Optional<Monitor> monitorOptional =
+                monitorRepository.findById(monitorId);
+
+        if (monitorOptional.isEmpty()) {
+            return Optional.empty();
+        }
+
+        int safeLimit = Math.min(Math.max(limit, 1), 100);
+
+        List<CheckResult> results =
+                checkResultRepository
+                        .findByMonitorOrderByCheckedAtDesc(
+                                monitorOptional.get(),
+                                PageRequest.of(0, safeLimit)
+                        );
+
+        return Optional.of(results);
+    }
+
 }
