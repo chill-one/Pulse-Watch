@@ -128,7 +128,7 @@ public class MonitorController {
 
 
     @PatchMapping("/{id}")
-    public ResponseEntity<MonitorResponse> updateMonitor(@PathVariable UUID id, @RequestBody UpdateMonitorRequest request)
+    public ResponseEntity<MonitorResponse> updateMonitor(@PathVariable UUID id, @Valid @RequestBody UpdateMonitorRequest request)
     {
         return monitorService
                         .updateMonitor(id, request)
