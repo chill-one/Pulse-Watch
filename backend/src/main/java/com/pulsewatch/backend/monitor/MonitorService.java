@@ -12,6 +12,7 @@ import com.pulsewatch.common.domain.CheckResult;
 import com.pulsewatch.common.domain.Incident;
 import com.pulsewatch.common.domain.Monitor;
 import com.pulsewatch.common.domain.MonitorStatus;
+import com.pulsewatch.persistence.repository.AlertRepository;
 import com.pulsewatch.persistence.repository.CheckResultRepository;
 import com.pulsewatch.persistence.repository.IncidentRepository;
 import com.pulsewatch.persistence.repository.MonitorRepository;
@@ -29,11 +30,16 @@ public class MonitorService {
     private final MonitorRepository monitorRepository;
     private final CheckResultRepository checkResultRepository;
     private final IncidentRepository incidentRepository;
+    private final AlertRepository alertRepository;
 
-    public MonitorService(MonitorRepository monitorRepository, CheckResultRepository checkResultRepository, IncidentRepository incidentRepository) {
+    public MonitorService(MonitorRepository monitorRepository, 
+                            CheckResultRepository checkResultRepository, 
+                            IncidentRepository incidentRepository,
+                            AlertRepository alertRepository) {
         this.monitorRepository = monitorRepository;
         this.checkResultRepository = checkResultRepository;
         this.incidentRepository = incidentRepository;
+        this.alertRepository = alertRepository;
     }
 
 
@@ -147,6 +153,26 @@ public class MonitorService {
         return Optional.of(monitor);
     }
 
-    
+    @Transactional
+    public boolean deleteByMonitor(UUID monitorID) {
+
+        Optional<Monitor> monitorOptional = 
+                            monitorRepository.findById(monitorID);
+
+        if (monitorOptional.isEmpty()) {
+            return false;
+        }
+
+        Monitor monitor = monitorOptional.get();
+
+        alertRepository.deleteByIncidentMonitor(monitor);
+        incidentRepository.deleteByMonitor(monitor);
+        checkResultRepository.deleteByMonitor(monitor);
+
+        monitorRepository.delete(monitor);
+
+
+        return true;
+    }
 
 }
