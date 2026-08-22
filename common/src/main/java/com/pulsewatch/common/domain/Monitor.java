@@ -147,4 +147,28 @@ public class Monitor {
             this.status = MonitorStatus.DEGRADED;
         }
     }
+
+    //The point is that this method can only modify configuration and cannot touch system domain
+    public void updateConfiguration(
+        String name,
+        String url,
+        Integer checkIntervalSeconds,
+        Integer timeoutSeconds) {
+
+    if (name != null) {
+        this.name = name;
+    }
+
+    if (url != null) {
+        this.url = url;
+    }
+
+    if (checkIntervalSeconds != null) {
+        this.checkIntervalSeconds = checkIntervalSeconds;
+    }
+
+    if (timeoutSeconds != null) {
+        this.timeoutSeconds = timeoutSeconds;
+    }
+}
 }
