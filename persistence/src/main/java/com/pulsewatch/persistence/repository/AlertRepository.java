@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.pulsewatch.common.domain.Alert;
 import com.pulsewatch.common.domain.DeliveryStatus;
+import com.pulsewatch.common.domain.Monitor;
 
 public interface AlertRepository
         extends JpaRepository<Alert, UUID> {
@@ -21,4 +22,7 @@ public interface AlertRepository
         List<Alert> findTop50ByDeliveryStatusOrderByCreatedAtAsc(
                 DeliveryStatus deliveryStatus
         );
+
+
+        void deleteByIncidentMonitor(Monitor monitor);
 }
