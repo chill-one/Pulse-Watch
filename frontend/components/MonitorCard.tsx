@@ -1,9 +1,11 @@
 import type { Monitor } from "../types/monitor";
 import type { CheckResult } from "../types/checkResult";
+import LatencySparkline from "./LatencySparkline";
 
 interface MonitorCardProps {
   monitor: Monitor;
   latestCheck: CheckResult | null;
+  checks : CheckResult[];
 }
 
 function getStatusClass(status: Monitor["status"]) {
@@ -11,7 +13,7 @@ function getStatusClass(status: Monitor["status"]) {
 }
 
 export default function MonitorCard({
-  monitor, latestCheck }: MonitorCardProps) {
+  monitor, latestCheck, checks, }: MonitorCardProps) {
   return (
     <article className="monitor-card">
 
@@ -69,6 +71,20 @@ export default function MonitorCard({
                 : "No checks yet"}
         </p>
      </div>
+
+     <div className="latency-section">
+        <div className="latency-header">
+          <span>Latency</span>
+
+          <span>
+            {latestCheck
+              ? `${latestCheck.latencyMs} ms`
+              : "—"}
+          </span>
+        </div>
+
+        <LatencySparkline checks={checks} />
+      </div>
 
     </article>
   );
