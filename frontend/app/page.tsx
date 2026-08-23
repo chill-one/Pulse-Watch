@@ -1,4 +1,5 @@
 import MonitorCard from "../components/MonitorCard";
+import Link from "next/link";
 
 import {
   getMonitors,
@@ -35,7 +36,13 @@ export default async function Home() {
         Monitor your services in real time.
       </p>
 
-      <h2>Monitors</h2>
+      <div className="dashboard-heading">
+        <h2>Monitors</h2>
+
+        <Link href="/monitors/new" className="primary-button">
+          Add Monitor
+        </Link>
+      </div>
 
       <div className="monitor-grid">
         {monitorsWithLatestCheck.map(

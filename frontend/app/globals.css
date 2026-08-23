@@ -408,3 +408,81 @@ main {
     flex-direction: column;
   }
 }
+
+
+
+.dashboard-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.primary-button,
+.primary-button:visited {
+  display: inline-block;
+  padding: 10px 16px;
+
+  background: #2563eb;
+  color: white;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+.primary-button:hover {
+  background: #1d4ed8;
+}
+
+
+.monitor-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  max-width: 600px;
+  margin-top: 32px;
+
+  padding: 24px;
+
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+}
+
+.monitor-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.monitor-form input {
+  width: 100%;
+  padding: 10px 12px;
+
+  background: #0f172a;
+  color: #e2e8f0;
+
+  border: 1px solid #475569;
+  border-radius: 8px;
+
+  font: inherit;
+}
+
+.monitor-form input:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 1px;
+}
+
+.monitor-form button {
+  align-self: flex-start;
+  border: none;
+  cursor: pointer;
+}
