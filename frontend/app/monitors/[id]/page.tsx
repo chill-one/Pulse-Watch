@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import DeleteMonitorButton from "../../../components/DeleteMonitorButton";
 
 import LatencySparkline from "../../../components/LatencySparkline";
 
@@ -50,18 +51,25 @@ export default async function MonitorPage({
         ← Back to dashboard
       </Link>
 
-      <div className="monitor-detail-header">
-        <div>
-          <h1>{monitor.name}</h1>
-          <p className="monitor-url">{monitor.url}</p>
-        </div>
+    <div className="monitor-actions">
+    <span
+        className={`status status-${monitor.status.toLowerCase()}`}
+    >
+        {monitor.status}
+    </span>
 
-        <span
-          className={`status status-${monitor.status.toLowerCase()}`}
-        >
-          {monitor.status}
-        </span>
-      </div>
+    <Link
+        href={`/monitors/${monitor.id}/edit`}
+        className="secondary-button"
+    >
+        Edit Monitor
+    </Link>
+
+    <DeleteMonitorButton
+        monitorId={monitor.id}
+        monitorName={monitor.name}
+    />
+    </div>
 
       <div className="stat-grid">
         <div className="stat-card">
