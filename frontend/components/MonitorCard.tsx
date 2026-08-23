@@ -2,6 +2,7 @@ import type { Monitor } from "../types/monitor";
 import type { CheckResult } from "../types/checkResult";
 import LatencySparkline from "./LatencySparkline";
 import { Incident } from "../types/incident";
+import Link from "next/link";
 
 interface MonitorCardProps {
   monitor: Monitor;
@@ -20,8 +21,15 @@ export default function MonitorCard({
     <article className="monitor-card">
 
       <div className="monitor-header">
-        <h3>{monitor.name}</h3>
+        <h3>
+            <Link
+              href={`/monitors/${monitor.id}`}
+              className="monitor-link"
+            >
+              {monitor.name}
 
+            </Link>
+          </h3>
         <span className={getStatusClass(monitor.status)}>
           {monitor.status}
         </span>
