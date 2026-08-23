@@ -3,21 +3,24 @@ import { test, expect } from "@playwright/test";
 test("dashboard loads", async ({ page }) => {
   await page.goto("/");
 
-  await expect(
+    await expect(
     page.getByRole("heading", {
-      name: "PulseWatch",
+        name: "PulseWatch",
+        exact: true,
     })
-  ).toBeVisible();
+    ).toBeVisible();
 
-  await expect(
+    await expect(
     page.getByRole("heading", {
-      name: "Monitors",
+        name: "Monitors",
+        exact: true,
     })
-  ).toBeVisible();
+    ).toBeVisible();
 
-  await expect(
+    await expect(
     page.getByRole("link", {
-      name: "Add Monitor",
+        name: "Add Monitor",
+        exact: true,
     })
-  ).toBeVisible();
+    ).toBeVisible();
 });
