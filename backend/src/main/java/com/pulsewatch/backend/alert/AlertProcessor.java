@@ -89,33 +89,31 @@ public class AlertProcessor {
 
         return switch (alert.getType()) {
 
-            case OUTAGE -> """
-                    PulseWatch detected an outage.
+            case OUTAGE -> (
+                    "PulseWatch detected an outage.%n%n"
+                            + "Monitor: %s%n"
+                            + "URL: %s%n"
+                            + "Status: DOWN%n"
+                            + "Outage started: %s%n"
+            ).formatted(
+                    monitor.getName(),
+                    monitor.getUrl(),
+                    incident.getStartedAt()
+            );
 
-                    Monitor: %s
-                    URL: %s
-                    Status: DOWN
-                    Outage started: %s
-                    """.formatted(
-                            monitor.getName(),
-                            monitor.getUrl(),
-                            incident.getStartedAt()
-                    );
-
-            case RECOVERY -> """
-                    PulseWatch detected a recovery.
-
-                    Monitor: %s
-                    URL: %s
-                    Status: UP
-                    Outage started: %s
-                    Recovered at: %s
-                    """.formatted(
-                            monitor.getName(),
-                            monitor.getUrl(),
-                            incident.getStartedAt(),
-                            incident.getEndedAt()
-                    );
+            case RECOVERY -> (
+                    "PulseWatch detected a recovery.%n%n"
+                            + "Monitor: %s%n"
+                            + "URL: %s%n"
+                            + "Status: UP%n"
+                            + "Outage started: %s%n"
+                            + "Recovered at: %s%n"
+            ).formatted(
+                    monitor.getName(),
+                    monitor.getUrl(),
+                    incident.getStartedAt(),
+                    incident.getEndedAt()
+            );
         };
     }
 
