@@ -486,3 +486,14 @@ main {
   border: none;
   cursor: pointer;
 }
+
+.form-error {
+  margin: 0;
+  color: #fca5a5;
+  font-size: 14px;
+}
+
+.monitor-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
