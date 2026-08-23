@@ -35,7 +35,7 @@ services:
 
       - PULSEWATCH_EMAIL_FROM=${PULSEWATCH_EMAIL_FROM}
       - PULSEWATCH_EMAIL_TO=${PULSEWATCH_EMAIL_TO}
-      - SPRING_PROFILES_ACTIVE=ses-email
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-ses-email}
 
     depends_on:
       postgres:
