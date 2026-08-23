@@ -55,24 +55,31 @@ export default async function MonitorPage({
     <AutoRefresh intervalMs={10000} />
     </div>
 
-    <div className="monitor-actions">
-    <span
-        className={`status status-${monitor.status.toLowerCase()}`}
-    >
-        {monitor.status}
-    </span>
+    <div className="monitor-detail-header">
+      <div>
+        <h1>{monitor.name}</h1>
+        <p className="monitor-url">{monitor.url}</p>
+      </div>
 
-    <Link
-        href={`/monitors/${monitor.id}/edit`}
-        className="secondary-button"
-    >
-        Edit Monitor
-    </Link>
+      <div className="monitor-actions">
+        <span
+          className={`status status-${monitor.status.toLowerCase()}`}
+        >
+          {monitor.status}
+        </span>
 
-    <DeleteMonitorButton
-        monitorId={monitor.id}
-        monitorName={monitor.name}
-    />
+        <Link
+          href={`/monitors/${monitor.id}/edit`}
+          className="secondary-button"
+        >
+          Edit Monitor
+        </Link>
+
+        <DeleteMonitorButton
+          monitorId={monitor.id}
+          monitorName={monitor.name}
+        />
+      </div>
     </div>
 
       <div className="stat-grid">

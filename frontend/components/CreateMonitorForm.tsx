@@ -1,68 +1,93 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import {
+  type FormEvent,
+  useEffect,
+  useState,
+} from "react";
 import { useRouter } from "next/navigation";
-import router from "next/router";
 
 export default function CreateMonitorForm() {
+  const router = useRouter();
+
+  // Prevent form submission before React hydration finishes.
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
-  const [checkIntervalSeconds, setCheckIntervalSeconds] =
-    useState(60);
-  const [timeoutSeconds, setTimeoutSeconds] =
-    useState(5);
 
-    const router = useRouter();
+  const [
+    checkIntervalSeconds,
+    setCheckIntervalSeconds,
+  ] = useState(60);
 
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+  const [
+    timeoutSeconds,
+    setTimeoutSeconds,
+  ] = useState(5);
 
-    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
+  const [isSubmitting, setIsSubmitting] =
+    useState(false);
 
+  const [error, setError] =
+    useState<string | null>(null);
 
-        setIsSubmitting(true);
-        setError(null);
+  async function handleSubmit(
+    event: FormEvent<HTMLFormElement>
+  ) {
+    event.preventDefault();
 
-        try {
-            const response = await fetch("/api/monitors", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                name,
-                url,
-                checkIntervalSeconds,
-                timeoutSeconds,
-            }),
-            });
+    setIsSubmitting(true);
+    setError(null);
 
-            if (!response.ok) {
-                const body = await response.text();
+    try {
+      const response = await fetch("/api/monitors", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          url,
+          checkIntervalSeconds,
+          timeoutSeconds,
+        }),
+      });
 
-                throw new Error(
-                    body || `Failed to create monitor: ${response.status}`
-                );
-            }
+      if (!response.ok) {
+        const body = await response.text();
 
-            router.push("/");
-            router.refresh();
-        } catch (error) {
-            setError(
-            error instanceof Error
-                ? error.message
-                : "Failed to create monitor"
-            );
-        } finally {
-            setIsSubmitting(false);
-        }
+        throw new Error(
+          body ||
+            `Failed to create monitor: ${response.status}`
+        );
+      }
+
+      router.push("/");
+      router.refresh();
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Failed to create monitor"
+      );
+    } finally {
+      setIsSubmitting(false);
     }
+  }
 
   return (
-    <form className="monitor-form" onSubmit={handleSubmit}>
+    <form
+      className="monitor-form"
+      onSubmit={handleSubmit}
+    >
       <label>
         Name
+
         <input
           type="text"
           value={name}
@@ -76,6 +101,7 @@ export default function CreateMonitorForm() {
 
       <label>
         URL
+
         <input
           type="url"
           value={url}
@@ -85,13 +111,15 @@ export default function CreateMonitorForm() {
           placeholder="https://example.com"
           required
         />
+
         <span className="field-hint">
-            Include http:// or https://
+          Include http:// or https://
         </span>
       </label>
 
       <label>
         Check interval (seconds)
+
         <input
           type="number"
           min="1"
@@ -107,6 +135,7 @@ export default function CreateMonitorForm() {
 
       <label>
         Timeout (seconds)
+
         <input
           type="number"
           min="1"
@@ -119,20 +148,22 @@ export default function CreateMonitorForm() {
           required
         />
       </label>
+
       {error && (
         <p className="form-error">
-            {error}
+          {error}
         </p>
-        )}
+      )}
+
       <button
         type="submit"
         className="primary-button"
-        disabled={isSubmitting}
-        >
+        disabled={!isHydrated || isSubmitting}
+      >
         {isSubmitting
-            ? "Creating..."
-            : "Create Monitor"}
-        </button>
+          ? "Creating..."
+          : "Create Monitor"}
+      </button>
     </form>
   );
 }

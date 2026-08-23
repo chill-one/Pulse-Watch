@@ -1,6 +1,10 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import {
+  type FormEvent,
+  useEffect,
+  useState,
+} from "react";
 import { useRouter } from "next/navigation";
 
 import type { Monitor } from "../types/monitor";
@@ -13,6 +17,13 @@ export default function EditMonitorForm({
   monitor,
 }: EditMonitorFormProps) {
   const router = useRouter();
+
+  // Prevent form submission before React hydration finishes.
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const [name, setName] = useState(monitor.name);
   const [url, setUrl] = useState(monitor.url);
@@ -156,7 +167,7 @@ export default function EditMonitorForm({
       <button
         type="submit"
         className="primary-button"
-        disabled={isSubmitting}
+        disabled={!isHydrated || isSubmitting}
       >
         {isSubmitting
           ? "Saving..."
