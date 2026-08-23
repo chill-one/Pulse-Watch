@@ -57,6 +57,26 @@
   margin: 8px 0;
 }
 
+.empty-dashboard {
+  margin-top: 24px;
+  padding: 48px 24px;
+
+  text-align: center;
+
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+}
+
+.empty-dashboard h3 {
+  margin-top: 0;
+}
+
+.empty-dashboard p {
+  margin-bottom: 24px;
+  color: #94a3b8;
+}
+
 /* =========================
    Dashboard Latency
    ========================= */
@@ -616,4 +636,90 @@ main {
 .detail-top-bar .back-link,
 .detail-top-bar .live-indicator {
   margin-bottom: 0;
+}
+
+.loading-header {
+  margin-bottom: 32px;
+}
+
+.loading-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(300px, 1fr)
+  );
+
+  gap: 20px;
+}
+
+.skeleton {
+  background: #1e293b;
+  border-radius: 8px;
+}
+
+.skeleton-title {
+  width: 220px;
+  height: 40px;
+  margin-bottom: 12px;
+}
+
+.skeleton-subtitle {
+  width: 320px;
+  max-width: 100%;
+  height: 20px;
+}
+
+.skeleton-card {
+  height: 300px;
+  border: 1px solid #334155;
+}
+
+.error-state {
+  max-width: 600px;
+  margin: 80px auto;
+
+  padding: 32px;
+
+  text-align: center;
+
+  background: #1e293b;
+
+  border: 1px solid #7f1d1d;
+  border-radius: 12px;
+}
+
+.error-state h1 {
+  margin-bottom: 12px;
+}
+
+.error-state p {
+  color: #94a3b8;
+}
+
+.error-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  margin-bottom: 12px;
+
+  background: #7f1d1d;
+  color: #fecaca;
+
+  border-radius: 50%;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.error-state details {
+  margin-top: 24px;
+
+  color: #94a3b8;
+
+  font-size: 13px;
+  text-align: left;
 }
