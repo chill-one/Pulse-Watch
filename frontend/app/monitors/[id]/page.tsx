@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import DeleteMonitorButton from "../../../components/DeleteMonitorButton";
-
+import AutoRefresh from "../../../components/AutoRefresh";
 import LatencySparkline from "../../../components/LatencySparkline";
 
 import {
@@ -47,6 +47,7 @@ export default async function MonitorPage({
 
   return (
     <main>
+        <AutoRefresh intervalMs={10000} />
       <Link href="/" className="back-link">
         ← Back to dashboard
       </Link>
