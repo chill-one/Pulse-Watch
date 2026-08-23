@@ -7,6 +7,7 @@ COPY common/pom.xml common/pom.xml
 COPY backend/pom.xml backend/pom.xml
 COPY worker/pom.xml worker/pom.xml
 COPY persistence/pom.xml persistence/pom.xml
+COPY checkstyle.xml ./checkstyle.xml
 
 COPY common/src common/src
 COPY worker/src worker/src
