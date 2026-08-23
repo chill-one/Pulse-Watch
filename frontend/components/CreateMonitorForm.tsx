@@ -1,6 +1,8 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import router from "next/router";
 
 export default function CreateMonitorForm() {
   const [name, setName] = useState("");
@@ -10,18 +12,50 @@ export default function CreateMonitorForm() {
   const [timeoutSeconds, setTimeoutSeconds] =
     useState(5);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+    const router = useRouter();
 
-    console.log("SUBMIT FIRED");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    console.log({
-      name,
-      url,
-      checkIntervalSeconds,
-      timeoutSeconds,
-    });
-  }
+    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+
+        setIsSubmitting(true);
+        setError(null);
+
+        try {
+            const response = await fetch("/api/monitors", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name,
+                url,
+                checkIntervalSeconds,
+                timeoutSeconds,
+            }),
+            });
+
+            if (!response.ok) {
+            throw new Error(
+                `Failed to create monitor: ${response.status}`
+            );
+            }
+
+            router.push("/");
+            router.refresh();
+        } catch (error) {
+            setError(
+            error instanceof Error
+                ? error.message
+                : "Failed to create monitor"
+            );
+        } finally {
+            setIsSubmitting(false);
+        }
+    }
 
   return (
     <form className="monitor-form" onSubmit={handleSubmit}>
@@ -80,10 +114,20 @@ export default function CreateMonitorForm() {
           required
         />
       </label>
-
-      <button type="submit" className="primary-button">
-        Create Monitor
-      </button>
+      {error && (
+        <p className="form-error">
+            {error}
+        </p>
+        )}
+      <button
+        type="submit"
+        className="primary-button"
+        disabled={isSubmitting}
+        >
+        {isSubmitting
+            ? "Creating..."
+            : "Create Monitor"}
+        </button>
     </form>
   );
 }
