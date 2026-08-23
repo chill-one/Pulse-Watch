@@ -51,9 +51,26 @@ export default async function Home() {
         </Link>
       </div>
 
+    {monitorsWithLatestCheck.length === 0 ? (
+      <div className="empty-dashboard">
+        <h3>No monitors yet</h3>
+
+        <p>
+          Add your first service and PulseWatch will start
+          checking its availability.
+        </p>
+
+        <Link
+          href="/monitors/new"
+          className="primary-button"
+        >
+          Add your first monitor
+        </Link>
+      </div>
+    ) : (
       <div className="monitor-grid">
         {monitorsWithLatestCheck.map(
-          ({ monitor, latestCheck , checks, incidents}) => (
+          ({ monitor, latestCheck, checks, incidents }) => (
             <MonitorCard
               key={monitor.id}
               monitor={monitor}
@@ -64,6 +81,7 @@ export default async function Home() {
           )
         )}
       </div>
+    )}
     </main>
   );
 }
