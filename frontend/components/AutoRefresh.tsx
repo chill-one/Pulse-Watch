@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 interface AutoRefreshProps {
@@ -12,15 +12,47 @@ export default function AutoRefresh({
 }: AutoRefreshProps) {
   const router = useRouter();
 
+  const [lastUpdated, setLastUpdated] = useState(
+    Date.now()
+  );
+
+  const [secondsAgo, setSecondsAgo] = useState(0);
+
   useEffect(() => {
-    const interval = window.setInterval(() => {
+    const refreshInterval = window.setInterval(() => {
       router.refresh();
+      setLastUpdated(Date.now());
     }, intervalMs);
 
     return () => {
-      window.clearInterval(interval);
+      window.clearInterval(refreshInterval);
     };
   }, [router, intervalMs]);
 
-  return null;
+  useEffect(() => {
+    const counterInterval = window.setInterval(() => {
+      setSecondsAgo(
+        Math.floor(
+          (Date.now() - lastUpdated) / 1000
+        )
+      );
+    }, 1000);
+
+    return () => {
+      window.clearInterval(counterInterval);
+    };
+  }, [lastUpdated]);
+
+  return (
+    <div className="live-indicator">
+      <span className="live-dot" />
+
+      <span>
+        Live · updated{" "}
+        {secondsAgo === 0
+          ? "just now"
+          : `${secondsAgo}s ago`}
+      </span>
+    </div>
+  );
 }

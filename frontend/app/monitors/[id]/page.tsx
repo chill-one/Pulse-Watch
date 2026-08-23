@@ -47,10 +47,13 @@ export default async function MonitorPage({
 
   return (
     <main>
-        <AutoRefresh intervalMs={10000} />
-      <Link href="/" className="back-link">
+    <div className="detail-top-bar">
+    <Link href="/" className="back-link">
         ← Back to dashboard
-      </Link>
+    </Link>
+
+    <AutoRefresh intervalMs={10000} />
+    </div>
 
     <div className="monitor-actions">
     <span

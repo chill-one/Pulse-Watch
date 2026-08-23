@@ -31,12 +31,17 @@ export default async function Home() {
 
   return (
     <main>
-      <AutoRefresh intervalMs={10000} />
-      <h1>PulseWatch</h1>
+      <div className="dashboard-top">
+        <div>
+          <h1>PulseWatch</h1>
 
-      <p className="dashboard-subtitle">
-        Monitor your services in real time.
-      </p>
+          <p className="dashboard-subtitle">
+            Monitor your services in real time.
+          </p>
+        </div>
+
+      <AutoRefresh intervalMs={10000} />
+    </div>
 
       <div className="dashboard-heading">
         <h2>Monitors</h2>
