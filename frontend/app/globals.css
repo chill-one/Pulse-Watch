@@ -147,7 +147,8 @@ main {
   justify-content: space-between;
   align-items: flex-start;
   gap: 24px;
-  margin-bottom: 32px;
+
+  margin-bottom: 52px;
 }
 
 /*
@@ -502,4 +503,68 @@ main {
   color: #94a3b8;
   font-size: 12px;
   font-weight: 400;
+}
+
+.monitor-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  flex-wrap: wrap;
+  flex-shrink: 0;
+
+  padding: 4px 0;
+}
+
+.secondary-button,
+.secondary-button:visited {
+  display: inline-block;
+
+  padding: 8px 12px;
+
+  background: #334155;
+  color: #e2e8f0;
+
+  border: 1px solid #475569;
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+.secondary-button:hover {
+  background: #475569;
+}
+
+
+.danger-button {
+  padding: 8px 12px;
+
+  background: #7f1d1d;
+  color: #fecaca;
+
+  border: 1px solid #991b1b;
+  border-radius: 8px;
+
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.danger-button:hover {
+  background: #991b1b;
+}
+
+.danger-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.delete-error {
+  color: #fca5a5;
+  font-size: 13px;
 }
