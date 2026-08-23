@@ -164,7 +164,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Start backend services
-        run: docker compose up -d postgres rabbitmq backend
+        run: docker compose up -d --build postgres rabbitmq backend
 
       - name: Wait for backend
         run: |
@@ -187,6 +187,22 @@ jobs:
         run: npm run test:e2e
         env:
           CI: true
+
+      - name: Show service logs on failure
+        if: failure()
+        run: |
+          docker compose ps
+          docker compose logs --no-color backend
+          docker compose logs --no-color postgres
+          docker compose logs --no-color rabbitmq
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: frontend/playwright-report/
+          retention-days: 7
 
       - name: Shut down services
         if: always()
