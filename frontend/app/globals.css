@@ -1,23 +1,6 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #0f172a;
-  color: #e2e8f0;
-}
-
-main {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 48px 24px;
-}
-
-h1 {
-  margin-bottom: 4px;
-}
+/* =========================
+   Dashboard
+   ========================= */
 
 .dashboard-subtitle {
   margin-top: 0;
@@ -35,26 +18,27 @@ h1 {
 }
 
 .monitor-card {
+  min-width: 0;
+
+  padding: 20px;
+
   background: #1e293b;
+  color: #e2e8f0;
+
   border: 1px solid #334155;
   border-radius: 12px;
-  padding: 20px;
 }
 
 .monitor-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   gap: 16px;
 }
 
 .monitor-header h3 {
   margin: 0;
-}
-
-.monitor-url {
-  color: #94a3b8;
-  overflow-wrap: anywhere;
 }
 
 .monitor-details {
@@ -65,11 +49,197 @@ h1 {
   margin: 8px 0;
 }
 
+/* =========================
+   Dashboard Latency
+   ========================= */
+
+.latency-section {
+  margin-top: 20px;
+  padding-top: 16px;
+
+  border-top: 1px solid #334155;
+}
+
+.latency-header {
+  display: flex;
+  justify-content: space-between;
+
+  gap: 16px;
+  margin-bottom: 8px;
+
+  font-size: 14px;
+}
+
+/* =========================
+   Dashboard Incidents
+   ========================= */
+
+.incident-section {
+  margin-top: 20px;
+  padding-top: 16px;
+
+  border-top: 1px solid #334155;
+}
+
+.incident-section h4 {
+  margin: 0 0 12px;
+}
+
+.empty-state {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+/* =========================
+   Monitor Details Page
+   ========================= */
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 28px;
+  color: #94a3b8;
+  text-decoration: none;
+}
+
+.back-link:visited {
+  color: #94a3b8;
+}
+
+.back-link:hover {
+  color: #e2e8f0;
+}
+
+.monitor-link,
+.monitor-link:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+.monitor-link:hover {
+  text-decoration: underline;
+}
+
+.monitor-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+/*
+ * Allows the left side of the header to shrink
+ * instead of forcing content outside the page.
+ */
+.monitor-detail-header > div {
+  min-width: 0;
+}
+
+.monitor-detail-header h1 {
+  margin: 0 0 8px;
+}
+
+.monitor-url {
+  color: #94a3b8;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* =========================
+   Stats
+   ========================= */
+
+.stat-grid {
+  display: grid;
+
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(180px, 1fr)
+  );
+
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  padding: 18px;
+
+  background: #1e293b;
+  color: #e2e8f0;
+
+  border: 1px solid #334155;
+  border-radius: 12px;
+
+  /*
+   * Important:
+   * Grid items normally may refuse to shrink
+   * below the width of their content.
+   *
+   * This allows CONNECTION_REFUSED to stay
+   * inside the card.
+   */
+  min-width: 0;
+}
+
+.stat-card strong {
+  max-width: 100%;
+
+  font-size: 20px;
+  line-height: 1.25;
+
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.stat-label {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+/* =========================
+   Status Badges
+   ========================= */
+
 .status {
+  display: inline-block;
+
   padding: 5px 10px;
+
   border-radius: 999px;
+
   font-size: 12px;
   font-weight: 700;
+
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .status-up {
@@ -92,38 +262,112 @@ h1 {
   color: #cbd5e1;
 }
 
-.latency-section {
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid #334155;
+/* =========================
+   Detail Sections
+   ========================= */
+
+.detail-section {
+  margin-top: 24px;
+  padding: 24px;
+
+  background: #1e293b;
+  color: #e2e8f0;
+
+  border: 1px solid #334155;
+  border-radius: 12px;
 }
 
-.latency-header {
+.detail-section h2 {
+  margin-top: 0;
+}
+
+.section-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
-  font-size: 14px;
+  align-items: center;
+
+  gap: 16px;
 }
+
+.section-header span {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+/* =========================
+   Latency Chart
+   ========================= */
 
 .latency-chart {
   display: block;
+
   width: 100%;
   height: 90px;
+
   color: #38bdf8;
 }
 
-.incident-section {
+.details-chart {
   margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid #334155;
 }
 
-.incident-section h4 {
-  margin: 0 0 12px;
+.details-chart .latency-chart {
+  height: 220px;
 }
+
+/* =========================
+   Tables
+   ========================= */
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px 16px;
+
+  text-align: left;
+  vertical-align: middle;
+
+  border-bottom: 1px solid #334155;
+}
+
+.data-table th {
+  color: #94a3b8;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+}
+
+.data-table td {
+  color: #e2e8f0;
+  font-size: 14px;
+
+  overflow-wrap: anywhere;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* =========================
+   Recent Incidents
+   ========================= */
 
 .incident-list {
   list-style: none;
+
   padding: 0;
   margin: 0;
 }
@@ -131,12 +375,36 @@ h1 {
 .incident-list li {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
+
+  gap: 16px;
   padding: 8px 0;
+
   font-size: 14px;
 }
 
-.empty-state {
-  color: #94a3b8;
-  font-size: 14px;
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 640px) {
+  main {
+    padding: 32px 16px;
+  }
+
+  .monitor-detail-header {
+    flex-direction: column;
+  }
+
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-section {
+    padding: 18px;
+  }
+
+  .section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
