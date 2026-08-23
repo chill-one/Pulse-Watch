@@ -1,5 +1,6 @@
 import MonitorCard from "../components/MonitorCard";
 import Link from "next/link";
+import AutoRefresh from "../components/AutoRefresh";
 
 import {
   getMonitors,
@@ -30,6 +31,7 @@ export default async function Home() {
 
   return (
     <main>
+      <AutoRefresh intervalMs={10000} />
       <h1>PulseWatch</h1>
 
       <p className="dashboard-subtitle">
