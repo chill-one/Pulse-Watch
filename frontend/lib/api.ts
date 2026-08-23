@@ -1,5 +1,6 @@
 import type { Monitor } from "../types/monitor";
 import type { CheckResult } from "../types/checkResult";
+import type { Incident } from "../types/incident";
 
 const API_URL =
   process.env.PULSEWATCH_API_URL ?? "http://localhost:8080";
@@ -35,6 +36,26 @@ export async function getRecentChecks(
   if (!response.ok) {
     throw new Error(
       `Failed to fetch checks for monitor ${monitorId}: ${response.status}`
+    );
+  }
+
+  return response.json();
+}
+
+export async function getRecentIncidents(
+  monitorId: string,
+  limit = 10
+): Promise<Incident[]> {
+  const response = await fetch(
+    `${API_URL}/monitors/${monitorId}/incidents?limit=${limit}`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch incidents for monitor ${monitorId}: ${response.status}`
     );
   }
 
