@@ -33,8 +33,8 @@ public class SesNotificationSender
     }
 
 
-        @Override
-        public void send(NotificationMessage message) {
+    @Override
+    public void send(NotificationMessage message) {
 
         Destination destination =
                 Destination.builder()
@@ -80,5 +80,5 @@ public class SesNotificationSender
                 + " alertId=" + message.alertId()
                 + " messageId=" + response.messageId()
         );
-        }
+    }
 }

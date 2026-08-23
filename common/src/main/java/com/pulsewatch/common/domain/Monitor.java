@@ -18,7 +18,8 @@ import jakarta.persistence.Id;
 @Entity
 public class Monitor {
     //@ID -> This field is the primary identifier for each Monitor
-    //@GeneratedValue(strategy = GenerationType.UUID) -> JPA should generate the UUID for us when new Monitor is persisited.
+    //@GeneratedValue(strategy = GenerationType.UUID) -> JPA should generate the UUID
+    // for us when new Monitor is persisited.
     //@Column(nullable = False) -> the row of this column cannot be null
     //@Enumerated(EnumType.STRING) -> Tells JPA to store the enum using its name 
     @Id
@@ -52,7 +53,7 @@ public class Monitor {
     @Column(nullable = false)
     private int consecutiveFailureCount;
 
-    protected Monitor(){}
+    protected Monitor() {}
 
     public Monitor(
         String name,
@@ -115,7 +116,7 @@ public class Monitor {
      * Schedule this monitor's next check one interval from now
      * @param from The previous time 
      */
-    public void scheduleNextCheck(Instant from){
+    public void scheduleNextCheck(Instant from) {
         this.nextCheckAt = from.plusSeconds(checkIntervalSeconds);
     }
 
@@ -141,7 +142,7 @@ public class Monitor {
 
         this.consecutiveFailureCount++;
 
-        if(this.consecutiveFailureCount >= failureThreshold) {
+        if (this.consecutiveFailureCount >= failureThreshold) {
             this.status = MonitorStatus.DOWN;
         } else {
             this.status = MonitorStatus.DEGRADED;
@@ -155,20 +156,20 @@ public class Monitor {
         Integer checkIntervalSeconds,
         Integer timeoutSeconds) {
 
-    if (name != null) {
-        this.name = name;
-    }
+        if (name != null) {
+            this.name = name;
+        }
 
-    if (url != null) {
-        this.url = url;
-    }
+        if (url != null) {
+            this.url = url;
+        }
 
-    if (checkIntervalSeconds != null) {
-        this.checkIntervalSeconds = checkIntervalSeconds;
-    }
+        if (checkIntervalSeconds != null) {
+            this.checkIntervalSeconds = checkIntervalSeconds;
+        }
 
-    if (timeoutSeconds != null) {
-        this.timeoutSeconds = timeoutSeconds;
+        if (timeoutSeconds != null) {
+            this.timeoutSeconds = timeoutSeconds;
+        }
     }
-}
 }

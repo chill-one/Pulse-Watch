@@ -15,6 +15,6 @@ public record CheckTask(
     UUID taskId,
     UUID monitorId,
     Instant scheduleCheckAt
-){
+) {
 
 }

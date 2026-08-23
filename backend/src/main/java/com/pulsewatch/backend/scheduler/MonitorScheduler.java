@@ -15,12 +15,12 @@ import com.pulsewatch.persistence.repository.MonitorRepository;
 
 
 @Component
-public class MonitorScheduler{
+public class MonitorScheduler {
     
     private final MonitorRepository monitorRepository;
     private final RabbitTemplate rabbitTemplate;
 
-    public MonitorScheduler(MonitorRepository monitorRepository, RabbitTemplate rabbitTemplate){
+    public MonitorScheduler(MonitorRepository monitorRepository, RabbitTemplate rabbitTemplate) {
         this.monitorRepository = monitorRepository;
         this.rabbitTemplate = rabbitTemplate;
     }
@@ -41,7 +41,7 @@ public class MonitorScheduler{
             );
         
         System.out.println("Found " + dueMonitors.size() + " due monitors");
-        for (Monitor monitor : dueMonitors){
+        for (Monitor monitor : dueMonitors) {
             CheckTask task = new CheckTask(
                 UUID.randomUUID(),
                 monitor.getId(),

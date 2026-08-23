@@ -25,7 +25,7 @@ public class CheckTaskConsumer {
      * @param message
      */
     @RabbitListener(queues = RabbitMqNames.CHECK_QUEUE)
-    public void receive(CheckTask task){
+    public void receive(CheckTask task) {
         monitorCheckService.process(task);
     }
     

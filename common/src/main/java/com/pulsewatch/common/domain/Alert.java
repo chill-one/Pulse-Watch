@@ -38,7 +38,7 @@ public class Alert {
 
     private Instant sentAt;
 
-    protected Alert(){}
+    protected Alert() {}
 
 
     public Alert(

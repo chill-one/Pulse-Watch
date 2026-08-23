@@ -84,7 +84,10 @@ class MonitorSchedulerTest {
         scheduler().pollDueMonitors();
 
         verify(rabbitTemplate, org.mockito.Mockito.times(2))
-                .convertAndSend(eq(RabbitMqNames.CHECK_EXCHANGE), eq(RabbitMqNames.CHECK_ROUTING_KEY), any(CheckTask.class));
+                .convertAndSend(
+                        eq(RabbitMqNames.CHECK_EXCHANGE),
+                        eq(RabbitMqNames.CHECK_ROUTING_KEY),
+                        any(CheckTask.class));
         verify(monitorRepository).save(first);
         verify(monitorRepository).save(second);
     }

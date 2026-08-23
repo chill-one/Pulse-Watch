@@ -96,7 +96,9 @@ public class MonitorController {
     }
     
     @GetMapping("/{id}/checks")
-    public ResponseEntity<List<CheckResultResponse>> getRecentChecks(@PathVariable UUID id, @RequestParam(defaultValue = "50") int limit) {
+    public ResponseEntity<List<CheckResultResponse>> getRecentChecks(
+            @PathVariable UUID id,
+            @RequestParam(defaultValue = "50") int limit) {
 
         return monitorService
                 .getRecentChecks(id, limit)
@@ -112,7 +114,9 @@ public class MonitorController {
     }
 
     @GetMapping("/{id}/incidents")
-    public ResponseEntity<List<IncidentResponse>> getRecentIncidents( @PathVariable UUID id, @RequestParam(defaultValue = "10") int limit) {
+    public ResponseEntity<List<IncidentResponse>> getRecentIncidents(
+            @PathVariable UUID id,
+            @RequestParam(defaultValue = "10") int limit) {
 
         return monitorService
                 .getRecentIncidents(id, limit)
@@ -129,8 +133,9 @@ public class MonitorController {
 
 
     @PatchMapping("/{id}")
-    public ResponseEntity<MonitorResponse> updateMonitor(@PathVariable UUID id, @Valid @RequestBody UpdateMonitorRequest request)
-    {
+    public ResponseEntity<MonitorResponse> updateMonitor(
+            @PathVariable UUID id,
+            @Valid @RequestBody UpdateMonitorRequest request) {
         return monitorService
                         .updateMonitor(id, request)
                         .map(MonitorResponse::from)
@@ -146,7 +151,7 @@ public class MonitorController {
 
         boolean deleted = monitorService.deleteByMonitor(id);
 
-        if(!deleted){
+        if (!deleted) {
             return ResponseEntity.notFound().build();
         }
 

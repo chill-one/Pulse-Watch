@@ -15,7 +15,6 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.net.http.HttpTimeoutException;
@@ -23,7 +22,6 @@ import java.time.Instant;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 import javax.net.ssl.SSLException;
 
@@ -31,9 +29,6 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -85,8 +80,10 @@ class MonitorCheckServiceTest {
 
     @Test
     void sendsGetWithPulseWatchUserAgent() throws IOException {
-        java.util.concurrent.atomic.AtomicReference<String> method = new java.util.concurrent.atomic.AtomicReference<>();
-        java.util.concurrent.atomic.AtomicReference<String> userAgent = new java.util.concurrent.atomic.AtomicReference<>();
+        java.util.concurrent.atomic.AtomicReference<String> method =
+                new java.util.concurrent.atomic.AtomicReference<>();
+        java.util.concurrent.atomic.AtomicReference<String> userAgent =
+                new java.util.concurrent.atomic.AtomicReference<>();
         try (TestHttpServer server = server(204, false, exchange -> {
             method.set(exchange.getRequestMethod());
             userAgent.set(exchange.getRequestHeaders().getFirst("User-Agent"));

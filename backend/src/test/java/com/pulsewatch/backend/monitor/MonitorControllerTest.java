@@ -16,7 +16,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import com.pulsewatch.common.domain.CheckResult;
-import com.pulsewatch.common.domain.CheckError;
 import com.pulsewatch.common.domain.Incident;
 import com.pulsewatch.common.domain.Monitor;
 import com.pulsewatch.common.domain.MonitorStatus;
@@ -47,7 +46,9 @@ class MonitorControllerTest {
 
         mockMvc.perform(post("/monitors")
                         .contentType("application/json")
-                        .content("{\"name\":\"Example\",\"url\":\"https://example.test\",\"checkIntervalSeconds\":60,\"timeoutSeconds\":10}"))
+                        .content(
+                                "{\"name\":\"Example\",\"url\":\"https://example.test\","
+                                        + "\"checkIntervalSeconds\":60,\"timeoutSeconds\":10}"))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", "/monitors/" + id))
                 .andExpect(jsonPath("$.id").value(id.toString()))
@@ -58,7 +59,9 @@ class MonitorControllerTest {
     void rejectsInvalidCreateRequest() throws Exception {
         mockMvc.perform(post("/monitors")
                         .contentType("application/json")
-                        .content("{\"name\":\"Example\",\"url\":\"ftp://example.test\",\"checkIntervalSeconds\":60,\"timeoutSeconds\":10}"))
+                        .content(
+                                "{\"name\":\"Example\",\"url\":\"ftp://example.test\","
+                                        + "\"checkIntervalSeconds\":60,\"timeoutSeconds\":10}"))
                 .andExpect(status().isBadRequest());
     }
 

@@ -27,27 +27,29 @@ public record CreateMonitorRequest(
 
 
 
-        @AssertTrue(message = "url must be a valid HTTP or HTTPS URL")
-        public boolean isUrlValid(){
-                
-                //Without this check both @Not blank and AssertTrue can generate two validation error
-                //Since @Not blank already owns this rule we return true
-                if(url == null || url.isBlank()){
-                        return true;
-                }
+    @AssertTrue(message = "url must be a valid HTTP or HTTPS URL")
+    public boolean isUrlValid() {
 
-                try {
-                        //url given: https://google.com
-                        URI uri = new URI(url);
-                        
-                        //https or http
-                        String scheme = uri.getScheme();
-                        
-                        //host -> google.com
-                        return uri.getHost() != null && ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme));
-                    
-                } catch (URISyntaxException e) {
-                        return false;
-                }
+        //Without this check both @Not blank and AssertTrue can generate two validation error
+        //Since @Not blank already owns this rule we return true
+        if (url == null || url.isBlank()) {
+            return true;
         }
+
+        try {
+            //url given: https://google.com
+            URI uri = new URI(url);
+
+            //https or http
+            String scheme = uri.getScheme();
+
+            //host -> google.com
+            boolean httpScheme = "http".equalsIgnoreCase(scheme);
+            boolean httpsScheme = "https".equalsIgnoreCase(scheme);
+            return uri.getHost() != null && (httpScheme || httpsScheme);
+
+        } catch (URISyntaxException e) {
+            return false;
+        }
+    }
 }

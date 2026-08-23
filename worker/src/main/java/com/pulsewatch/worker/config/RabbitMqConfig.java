@@ -49,7 +49,8 @@ public class RabbitMqConfig {
     }
 
     /**
-     * This is the rule that is able to connect a messge sent to exchange with routing key montior.check and direct it to the queue.
+     * This is the rule that connects a message sent to the exchange with routing
+     * key monitor.check and directs it to the queue.
      * @param checkQueue    The checkQueue object
      * @param checkExchange The directExchange object
      * @return

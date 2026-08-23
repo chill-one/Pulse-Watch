@@ -92,9 +92,9 @@ class RabbitMessagingIT {
 
     @SpringBootConfiguration(proxyBeanMethods = false)
     @EnableAutoConfiguration(excludeName = {
-            "org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration",
-            "org.springframework.boot.hibernate.autoconfigure.HibernateJpaAutoConfiguration",
-            "org.springframework.boot.data.jpa.autoconfigure.DataJpaRepositoriesAutoConfiguration"
+        "org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration",
+        "org.springframework.boot.hibernate.autoconfigure.HibernateJpaAutoConfiguration",
+        "org.springframework.boot.data.jpa.autoconfigure.DataJpaRepositoriesAutoConfiguration"
     })
     @Import(RabbitMqConfig.class)
     static class TestApplication {

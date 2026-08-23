@@ -51,7 +51,7 @@ public class CheckPersistenceService {
                 CheckError error) {
 
 
-        if (checkResultRepository.existsByTaskId(task.taskId())){
+        if (checkResultRepository.existsByTaskId(task.taskId())) {
             return;
         }
 

@@ -19,10 +19,6 @@ import com.pulsewatch.persistence.repository.MonitorRepository;
 
 import jakarta.transaction.Transactional;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
-
-
 //@Service -> This class contains application/business logic and should be managed by spring
 @Service
 public class MonitorService {
@@ -48,7 +44,7 @@ public class MonitorService {
      * @param request The message from user
      * @return The entity else null
      */
-    public Monitor createMonitor(CreateMonitorRequest request){
+    public Monitor createMonitor(CreateMonitorRequest request) {
         
         Instant now = Instant.now();
 

@@ -19,10 +19,10 @@ public interface AlertRepository
          * ByDeliveryStatus -> Where delivery_status = ?
          * OrderdByCreatedAtAsc -> oldest alerts first
          */
-        List<Alert> findTop50ByDeliveryStatusOrderByCreatedAtAsc(
-                DeliveryStatus deliveryStatus
-        );
+    List<Alert> findTop50ByDeliveryStatusOrderByCreatedAtAsc(
+        DeliveryStatus deliveryStatus
+    );
 
 
-        void deleteByIncidentMonitor(Monitor monitor);
+    void deleteByIncidentMonitor(Monitor monitor);
 }

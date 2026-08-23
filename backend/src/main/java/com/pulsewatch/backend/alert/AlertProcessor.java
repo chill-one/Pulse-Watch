@@ -77,46 +77,46 @@ public class AlertProcessor {
     private String buildSubject(Alert alert, Monitor monitor) {
 
         return switch (alert.getType()) {
-                case OUTAGE ->
-                        "[PulseWatch] DOWN : " + monitor.getName();
-                case RECOVERY ->
-                        "[PulseWatch] RECOVERED " + monitor.getName();
+            case OUTAGE ->
+                "[PulseWatch] DOWN : " + monitor.getName();
+            case RECOVERY ->
+                "[PulseWatch] RECOVERED " + monitor.getName();
         };
     }
 
 
     private String buildBody(Alert alert, Monitor monitor, Incident incident) {
 
-    return switch (alert.getType()) {
+        return switch (alert.getType()) {
 
-        case OUTAGE -> """
-                PulseWatch detected an outage.
+            case OUTAGE -> """
+                    PulseWatch detected an outage.
 
-                Monitor: %s
-                URL: %s
-                Status: DOWN
-                Outage started: %s
-                """.formatted(
-                        monitor.getName(),
-                        monitor.getUrl(),
-                        incident.getStartedAt()
-                );
+                    Monitor: %s
+                    URL: %s
+                    Status: DOWN
+                    Outage started: %s
+                    """.formatted(
+                            monitor.getName(),
+                            monitor.getUrl(),
+                            incident.getStartedAt()
+                    );
 
-        case RECOVERY -> """
-                PulseWatch detected a recovery.
+            case RECOVERY -> """
+                    PulseWatch detected a recovery.
 
-                Monitor: %s
-                URL: %s
-                Status: UP
-                Outage started: %s
-                Recovered at: %s
-                """.formatted(
-                        monitor.getName(),
-                        monitor.getUrl(),
-                        incident.getStartedAt(),
-                        incident.getEndedAt()
-                );
-    };
-}
+                    Monitor: %s
+                    URL: %s
+                    Status: UP
+                    Outage started: %s
+                    Recovered at: %s
+                    """.formatted(
+                            monitor.getName(),
+                            monitor.getUrl(),
+                            incident.getStartedAt(),
+                            incident.getEndedAt()
+                    );
+        };
+    }
 
 }

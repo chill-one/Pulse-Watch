@@ -35,7 +35,8 @@ public class CheckResult {
 
     //@ManyToOne -> Many CheckResult object may reference the same Monitor
     // optional = false means a CheckResult is not allowed to exist wihtout an Mointor
-    // fetch = FetchType.LAZY -> Don't auto load the entire Mointor object every single time I fetch checkresult unless i need it
+    // fetch = FetchType.LAZY -> Don't auto load the entire Mointor object every single time
+    // I fetch checkresult unless i need it
 
     //@JointColumn -> In the CheckResult Table, use a column named monitor_id to refernec the associated Mointor
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -72,12 +73,12 @@ public class CheckResult {
         long latencyMs,
         CheckError error) {
 
-    this.taskId = taskId;
-    this.monitor = monitor;
-    this.checkedAt = checkedAt;
-    this.statusCode = statusCode;
-    this.latencyMs = latencyMs;
-    this.error = error;
+        this.taskId = taskId;
+        this.monitor = monitor;
+        this.checkedAt = checkedAt;
+        this.statusCode = statusCode;
+        this.latencyMs = latencyMs;
+        this.error = error;
     }
 
 

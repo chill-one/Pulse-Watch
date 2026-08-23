@@ -20,8 +20,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 
-import com.pulsewatch.common.domain.CheckResult;
-import com.pulsewatch.common.domain.Incident;
 import com.pulsewatch.common.domain.Monitor;
 import com.pulsewatch.common.domain.MonitorStatus;
 import com.pulsewatch.persistence.repository.AlertRepository;
