@@ -5,3 +5,5 @@ common/target
 persistence/target
 .vscode/
 .prettierrc
+frontend/node_modules
+frontend/.next
