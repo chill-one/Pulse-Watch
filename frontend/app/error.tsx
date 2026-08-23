@@ -23,7 +23,7 @@ export default function ErrorPage({
         <h1>Unable to load PulseWatch</h1>
 
         <p>
-          We couldn't retrieve monitoring data.
+          We couldn&apos;t retrieve monitoring data.
           The backend may be temporarily unavailable.
         </p>
 
