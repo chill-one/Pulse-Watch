@@ -13,7 +13,7 @@ export default function AutoRefresh({
   const router = useRouter();
 
   const [lastUpdated, setLastUpdated] = useState(
-    Date.now()
+    () => Date.now()
   );
 
   const [secondsAgo, setSecondsAgo] = useState(0);

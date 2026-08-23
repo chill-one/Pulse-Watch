@@ -14,7 +14,11 @@ export default function CreateMonitorForm() {
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    setIsHydrated(true);
+    const hydrationFrame = window.requestAnimationFrame(() => {
+      setIsHydrated(true);
+    });
+
+    return () => window.cancelAnimationFrame(hydrationFrame);
   }, []);
 
   const [name, setName] = useState("");
