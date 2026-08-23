@@ -1,17 +1,28 @@
 import MonitorCard from "../components/MonitorCard";
-import { getMonitors, getRecentChecks } from "../lib/api";
+
+import {
+  getMonitors,
+  getRecentChecks,
+  getRecentIncidents,
+} from "../lib/api";
 
 export default async function Home() {
   const monitors = await getMonitors();
 
   const monitorsWithLatestCheck = await Promise.all(
     monitors.map(async (monitor) => {
-      const checks = await getRecentChecks(monitor.id, 30);
+
+    const [checks, incidents] = await Promise.all([
+      getRecentChecks(monitor.id, 30),
+      getRecentIncidents(monitor.id, 3),
+    ]);
+      
 
       return {
         monitor,
         latestCheck: checks[0] ?? null,
-        checks
+        checks,
+        incidents,
       };
     })
   );
@@ -28,12 +39,13 @@ export default async function Home() {
 
       <div className="monitor-grid">
         {monitorsWithLatestCheck.map(
-          ({ monitor, latestCheck , checks}) => (
+          ({ monitor, latestCheck , checks, incidents}) => (
             <MonitorCard
               key={monitor.id}
               monitor={monitor}
               latestCheck={latestCheck}
               checks={checks}
+              incidents={incidents}
             />
           )
         )}
