@@ -72,6 +72,6 @@ public class RabbitMqConfig {
      */
     @Bean
     public MessageConverter messageConverter() {
-        return new JacksonJsonMessageConverter();
+        return new JacksonJsonMessageConverter("com.pulsewatch.common.messaging");
     }
 }
