@@ -1,11 +1,13 @@
 import type { Monitor } from "../types/monitor";
 import type { CheckResult } from "../types/checkResult";
 import LatencySparkline from "./LatencySparkline";
+import { Incident } from "../types/incident";
 
 interface MonitorCardProps {
   monitor: Monitor;
   latestCheck: CheckResult | null;
   checks : CheckResult[];
+  incidents: Incident[]
 }
 
 function getStatusClass(status: Monitor["status"]) {
@@ -13,7 +15,7 @@ function getStatusClass(status: Monitor["status"]) {
 }
 
 export default function MonitorCard({
-  monitor, latestCheck, checks, }: MonitorCardProps) {
+  monitor, latestCheck, checks, incidents, }: MonitorCardProps) {
   return (
     <article className="monitor-card">
 
@@ -84,6 +86,32 @@ export default function MonitorCard({
         </div>
 
         <LatencySparkline checks={checks} />
+      </div>
+
+      <div className="incident-section">
+        <h4>Recent incidents</h4>
+
+        {incidents.length === 0 ? (
+          <p className="empty-state">
+            No incidents recorded.
+          </p>
+        ) : (
+          <ul className="incident-list">
+            {incidents.map((incident) => (
+              <li key={incident.id}>
+                <span>
+                  {incident.endedAt ? "Resolved" : "Ongoing"}
+                </span>
+
+                <span>
+                  {new Date(
+                    incident.startedAt
+                  ).toLocaleString()}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
     </article>
