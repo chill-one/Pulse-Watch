@@ -1,7 +1,9 @@
 import type { Monitor } from "../types/monitor";
+import type { CheckResult } from "../types/checkResult";
 
 interface MonitorCardProps {
   monitor: Monitor;
+  latestCheck: CheckResult | null;
 }
 
 function getStatusClass(status: Monitor["status"]) {
@@ -9,8 +11,7 @@ function getStatusClass(status: Monitor["status"]) {
 }
 
 export default function MonitorCard({
-  monitor,
-}: MonitorCardProps) {
+  monitor, latestCheck }: MonitorCardProps) {
   return (
     <article className="monitor-card">
 
@@ -43,6 +44,31 @@ export default function MonitorCard({
         </p>
 
       </div>
+
+      <div className="monitor-details">
+        <p>
+            Latest latency:{" "}
+            {latestCheck
+            ? `${latestCheck.latencyMs} ms`
+            : "No checks yet"}
+        </p>
+
+        <p>
+            Last checked:{" "}
+            {latestCheck
+            ? new Date(latestCheck.checkedAt).toLocaleString()
+            : "Never"}
+        </p>
+
+        <p>
+            Last response:{" "}
+            {latestCheck
+                ? latestCheck.statusCode ??
+                latestCheck.error ??
+                "Unknown"
+                : "No checks yet"}
+        </p>
+     </div>
 
     </article>
   );
