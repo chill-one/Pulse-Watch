@@ -39,9 +39,11 @@ export default function CreateMonitorForm() {
             });
 
             if (!response.ok) {
-            throw new Error(
-                `Failed to create monitor: ${response.status}`
-            );
+                const body = await response.text();
+
+                throw new Error(
+                    body || `Failed to create monitor: ${response.status}`
+                );
             }
 
             router.push("/");
@@ -80,9 +82,12 @@ export default function CreateMonitorForm() {
           onChange={(event) =>
             setUrl(event.target.value)
           }
-          placeholder="https://github.com"
+          placeholder="https://example.com"
           required
         />
+        <span className="field-hint">
+            Include http:// or https://
+        </span>
       </label>
 
       <label>

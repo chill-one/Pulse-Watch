@@ -497,3 +497,9 @@ main {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.field-hint {
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 400;
+}
