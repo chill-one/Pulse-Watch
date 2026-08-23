@@ -1,4 +1,5 @@
 import { getMonitors } from "../lib/api";
+import MonitorCard from "../components/MonitorCard";
 
 export default async function Home() {
   const monitors = await getMonitors();
@@ -10,13 +11,14 @@ export default async function Home() {
 
       <h2>Monitors</h2>
 
-      <ul>
-        {monitors.map((monitor) => (
-          <li key={monitor.id}>
-            {monitor.name} — {monitor.status}
-          </li>
-        ))}
-      </ul>
+        <ul>
+          {monitors.map((monitor) => (
+            <MonitorCard
+                key={monitor.id}
+                monitor={monitor}
+              />
+          ))}
+        </ul>
     </main>
   );
 }
