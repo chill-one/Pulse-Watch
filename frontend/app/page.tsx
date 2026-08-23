@@ -6,11 +6,12 @@ export default async function Home() {
 
   const monitorsWithLatestCheck = await Promise.all(
     monitors.map(async (monitor) => {
-      const checks = await getRecentChecks(monitor.id, 1);
+      const checks = await getRecentChecks(monitor.id, 30);
 
       return {
         monitor,
         latestCheck: checks[0] ?? null,
+        checks
       };
     })
   );
@@ -27,11 +28,12 @@ export default async function Home() {
 
       <div className="monitor-grid">
         {monitorsWithLatestCheck.map(
-          ({ monitor, latestCheck }) => (
+          ({ monitor, latestCheck , checks}) => (
             <MonitorCard
               key={monitor.id}
               monitor={monitor}
               latestCheck={latestCheck}
+              checks={checks}
             />
           )
         )}
