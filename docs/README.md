@@ -692,6 +692,40 @@ They intentionally avoid asserting asynchronous health-state changes because sch
 
 ---
 
+### Performance & Load Testing
+
+PulseWatch includes load and performance tests for both the REST API and the asynchronous monitoring pipeline.
+
+#### API Throughput
+
+Using k6, the `GET /monitors` endpoint was tested under sustained load in a local containerized environment.
+
+- Sustained **4,500 requests/second for 60 seconds**
+- Completed **270,006 requests**
+- **3.95 ms p95 latency**
+- **0% HTTP errors**
+- **0 dropped iterations**
+
+Higher-load tests were also used to identify the saturation region of the local test environment.
+
+#### Monitoring Pipeline Throughput
+
+The asynchronous monitoring pipeline was tested using a controlled RabbitMQ backlog and a local containerized HTTP target.
+
+```text
+RabbitMQ
+   ↓
+Worker
+   ↓
+HTTP Check
+   ↓
+CheckResult
+   ↓
+PostgreSQL
+```
+
+---
+
 ## Continuous Integration
 
 GitHub Actions automatically validates the project on pushes and pull requests.
